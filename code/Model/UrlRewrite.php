@@ -7,6 +7,8 @@
 
 namespace CrazyCat\UrlRewrite\Model;
 
+use CrazyCat\Framework\App\Url;
+
 /**
  * @category CrazyCat
  * @package CrazyCat\UrlRewrite
@@ -29,6 +31,13 @@ class UrlRewrite extends \CrazyCat\Framework\App\Module\Model\AbstractModel {
     protected function beforeSave()
     {
         parent::beforeSave();
+
+        if ( !empty( $this->data['entity_id'] ) ) {
+            if ( !empty( $this->data['params'] ) && !is_array( $this->data['params'] ) ) {
+                $this->data['params'] = json_decode( $this->data['params'], true );
+            }
+            $this->data['params'][Url::ID_NAME] = $this->data['entity_id'];
+        }
 
         if ( isset( $this->data['params'] ) && is_array( $this->data['params'] ) ) {
             $this->data['params'] = json_encode( $this->data['params'] );

@@ -27,11 +27,11 @@ class Edit extends \CrazyCat\Core\Block\Backend\AbstractEdit {
                 'label' => __( 'General' ),
                 'fields' => [
                         [ 'name' => 'id', 'label' => __( 'ID' ), 'type' => 'hidden' ],
+                        [ 'name' => 'stage_id', 'label' => __( 'Stage' ), 'type' => 'select', 'source' => SourceStage::class ],
                         [ 'name' => 'request_path', 'label' => __( 'Request Path' ), 'type' => 'text', 'validation' => [ 'required' => true ] ],
                         [ 'name' => 'target_path', 'label' => __( 'Target Path' ), 'type' => 'text', 'validation' => [ 'required' => true ] ],
-                        [ 'name' => 'stage_id', 'label' => __( 'Stage' ), 'type' => 'select', 'source' => SourceStage::class ],
-                        [ 'name' => 'entity_type', 'label' => __( 'Entity Type' ), 'type' => 'select' ],
-                        [ 'name' => 'entity_id', 'label' => __( 'Entity ID' ), 'type' => 'text' ]
+                        [ 'name' => 'entity_id', 'label' => __( 'Entity ID' ), 'type' => 'text' ],
+                        [ 'name' => 'entity_type', 'label' => __( 'Entity Type' ), 'type' => 'select' ]
                 ]
             ]
         ];
