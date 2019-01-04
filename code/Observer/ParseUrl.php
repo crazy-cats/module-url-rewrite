@@ -9,8 +9,8 @@ namespace CrazyCat\UrlRewrite\Observer;
 
 use CrazyCat\Core\Model\Stage\Manager as StageManager;
 use CrazyCat\Framework\App\Area;
-use CrazyCat\Framework\App\Cookies;
 use CrazyCat\Framework\App\ObjectManager;
+use CrazyCat\Framework\App\Url;
 use CrazyCat\UrlRewrite\Model\UrlRewrite\Collection;
 
 /**
@@ -27,11 +27,6 @@ class ParseUrl {
     protected $area;
 
     /**
-     * @var \CrazyCat\Framework\App\Cookies
-     */
-    private $cookies;
-
-    /**
      * @var \CrazyCat\Framework\App\ObjectManager
      */
     private $objectManager;
@@ -41,10 +36,9 @@ class ParseUrl {
      */
     private $stageManager;
 
-    public function __construct( Cookies $cookies, StageManager $stageManager, Area $area, ObjectManager $objectManager )
+    public function __construct( StageManager $stageManager, Area $area, ObjectManager $objectManager )
     {
         $this->area = $area;
-        $this->cookies = $cookies;
         $this->objectManager = $objectManager;
         $this->stageManager = $stageManager;
     }
@@ -54,19 +48,33 @@ class ParseUrl {
      */
     public function execute( $observer )
     {
-        if ( $this->area->getCode() != Area::CODE_GLOBAL ) {
+        if ( $this->area->getCode() != Area::CODE_FRONTEND ) {
             return;
         }
 
         /* @var $request \CrazyCat\Framework\App\Io\Http\Request */
         $request = $observer->getRequest();
 
-        if ( ( $stageCode = $request->getParam( 'stage', $this->cookies->getData( 'stage' ) ) ) ) {
-            $stageId = $this->stageManager->getStage( $stageCode );
-            $this->stageManager->setCurrentStageCode( $stageId );
-            $this->objectManager->create( Collection::class )
-                    ->addFieldToFilter( 'stage_id', [ 'eq' => $stageId ] )
-                    ->addFieldToFilter( 'request_path', [ 'eq' => $request->getPath() ] );
+        $collection = $this->objectManager->create( Collection::class )
+                ->addFieldToFilter( 'stage_id', [ 'eq' => $this->stageManager->getCurrentStage()->getId() ] )
+                ->addFieldToFilter( 'request_path', [ 'eq' => $request->getPath() ] )
+                ->setPageSize( 1 );
+
+        if ( ( $urlRewrite = $collection->getFirstItem() ) ) {
+            list( $routeName, $controllerName, $actionName ) = explode( '/', $urlRewrite->getData( 'target_path' ) );
+            if ( ( $moduleName = $request->getModuleNameByRoute( Area::CODE_FRONTEND, $routeName ) ) ) {
+
+                $request->setModuleName( $moduleName )
+                        ->setRouteName( $routeName )
+                        ->setControllerName( $controllerName )
+                        ->setActionName( $actionName );
+
+                foreach ( $urlRewrite->getParams() as $key => $value ) {
+                    if ( $request->getParam( $key ) === null ) {
+                        $request->setParam( $key, $value );
+                    }
+                }
+            }
         }
     }
 

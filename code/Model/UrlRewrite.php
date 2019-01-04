@@ -23,4 +23,26 @@ class UrlRewrite extends \CrazyCat\Framework\App\Module\Model\AbstractModel {
         $this->init( 'url_rewrite', 'url_rewrite' );
     }
 
+    /**
+     * @return void
+     */
+    protected function beforeSave()
+    {
+        parent::beforeSave();
+
+        if ( isset( $this->data['params'] ) && is_array( $this->data['params'] ) ) {
+            $this->data['params'] = json_encode( $this->data['params'] );
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function afterLoad()
+    {
+        $this->data['params'] = json_decode( $this->data['params'], true );
+
+        parent::afterLoad();
+    }
+
 }

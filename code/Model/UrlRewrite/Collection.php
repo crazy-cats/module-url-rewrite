@@ -15,9 +15,24 @@ namespace CrazyCat\UrlRewrite\Model\UrlRewrite;
  */
 class Collection extends \CrazyCat\Framework\App\Module\Model\AbstractCollection {
 
+    /**
+     * @return void
+     */
     protected function construct()
     {
         $this->init( 'CrazyCat\UrlRewrite\Model\UrlRewrite' );
+    }
+
+    /**
+     * @return void
+     */
+    protected function afterLoad()
+    {
+        parent::afterLoad();
+
+        foreach ( $this->items as &$item ) {
+            $item->setData( 'params', json_decode( $item->getData( 'params' ), true ) );
+        }
     }
 
 }
