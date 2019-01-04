@@ -26,11 +26,11 @@ class Grid extends \CrazyCat\Core\Block\Backend\AbstractGrid {
     {
         return [
                 [ 'ids' => true, ],
+                [ 'name' => 'stage_id', 'label' => __( 'Stage' ), 'sort' => true, 'width' => 200, 'filter' => [ 'type' => 'select', 'source' => SourceStage::class, 'condition' => 'eq' ] ],
                 [ 'name' => 'request_path', 'label' => __( 'Request Path' ), 'sort' => true, 'filter' => [ 'type' => 'text', 'condition' => 'like' ] ],
                 [ 'name' => 'target_path', 'label' => __( 'Target Path' ), 'sort' => true, 'filter' => [ 'type' => 'text', 'condition' => 'like' ] ],
                 [ 'name' => 'entity_id', 'label' => __( 'Entity ID' ), 'sort' => true, 'filter' => [ 'type' => 'text', 'condition' => 'eq' ] ],
                 [ 'name' => 'entity_type', 'label' => __( 'Entity Type' ), 'sort' => true, 'width' => 200, 'filter' => [ 'type' => 'select', 'source' => SourceStage::class, 'condition' => 'eq' ] ],
-                [ 'name' => 'stage_id', 'label' => __( 'Stage' ), 'sort' => true, 'width' => 200, 'filter' => [ 'type' => 'select', 'source' => SourceStage::class, 'condition' => 'eq' ] ],
                 [ 'label' => __( 'Actions' ), 'actions' => [
                         [ 'name' => 'edit', 'label' => __( 'Edit' ), 'url' => getUrl( 'url_rewrite/url_rewrite/edit' ) ],
                         [ 'name' => 'delete', 'label' => __( 'Delete' ), 'confirm' => __( 'Sure you want to remove this item?' ), 'url' => getUrl( 'url_rewrite/url_rewrite/delete' ) ]

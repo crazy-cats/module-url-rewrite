@@ -50,7 +50,7 @@ class Url extends \CrazyCat\Framework\App\Url {
      * @param array $params
      * @return string|null
      */
-    protected function getUrlRewrite( $path, array &$params = [] )
+    protected function getUrlRewrite( $path, array $params = [] )
     {
         $collection = $this->objectManager->create( Collection::class )
                 ->addFieldToFilter( 'stage_id', [ 'eq' => $this->stageManager->getCurrentStage()->getId() ] )
@@ -59,7 +59,6 @@ class Url extends \CrazyCat\Framework\App\Url {
 
         if ( !empty( $params[self::ID_NAME] ) ) {
             $collection->addFieldToFilter( 'entity_id', [ 'eq' => $params[self::ID_NAME] ] );
-            unset( $params[self::ID_NAME] );
         }
 
         return $collection->getFirstItem();
@@ -77,6 +76,7 @@ class Url extends \CrazyCat\Framework\App\Url {
         if ( $this->area->getCode() == Area::CODE_FRONTEND &&
                 ( $urlRewrite = $this->getUrlRewrite( $realPath, $params ) ) ) {
             $realPath = $urlRewrite->getData( 'request_path' );
+            unset( $params[self::ID_NAME] );
         }
 
         return $this->getBaseUrl() . $realPath . ( empty( $params ) ? '' : ( '?' . http_build_query( $params ) ) );
