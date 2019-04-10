@@ -14,7 +14,7 @@
 return [
     'url_rewrite/url_rewrite/index' => [
         'label' => 'URL Rewrite',
-        'url' => getUrl( 'url_rewrite/url_rewrite' ),
+        'url' => 'url_rewrite/url_rewrite',
         'sort_order' => 400
     ]
 ];
