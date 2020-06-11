@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright © 2018 CrazyCat, Inc. All rights reserved.
+ * Copyright © 2020 CrazyCat, Inc. All rights reserved.
  * See COPYRIGHT.txt for license details.
  */
 
@@ -9,15 +9,14 @@ namespace CrazyCat\UrlRewrite\Controller\Backend\UrlRewrite;
 
 /**
  * @category CrazyCat
- * @package CrazyCat\UrlRewrite
- * @author Bruce Z <152416319@qq.com>
- * @link http://crazy-cat.co
+ * @package  CrazyCat\UrlRewrite
+ * @author   Liwei Zeng <zengliwei@163.com>
+ * @link     https://crazy-cat.cn
  */
-class Index extends \CrazyCat\Framework\App\Module\Controller\Backend\AbstractAction {
-
-    protected function run()
+class Index extends \CrazyCat\Framework\App\Component\Module\Controller\Backend\AbstractAction
+{
+    protected function execute()
     {
-        $this->setPageTitle( __( 'URL Rewrite List' ) )->render();
+        $this->setPageTitle(__('URL Rewrite List'))->render();
     }
-
 }

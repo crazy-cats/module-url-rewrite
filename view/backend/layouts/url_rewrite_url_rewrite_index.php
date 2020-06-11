@@ -1,32 +1,48 @@
 <?php
 
 /*
- * Copyright © 2018 CrazyCat, Inc. All rights reserved.
+ * Copyright © 2020 CrazyCat, Inc. All rights reserved.
  * See COPYRIGHT.txt for license details.
  */
 
 /**
  * @category CrazyCat
- * @package CrazyCat\UrlRewrite
- * @author Bruce Z <152416319@qq.com>
- * @link http://crazy-cat.co
+ * @package  CrazyCat\UrlRewrite
+ * @author   Liwei Zeng <zengliwei@163.com>
+ * @link     https://crazy-cat.cn
  */
 return [
     'template' => '2columns_left',
-    'blocks' => [
+    'blocks'   => [
         'header' => [
             'header-buttons' => [
-                'class' => 'CrazyCat\Core\Block\Template',
-                'data' => [
-                    'template' => 'CrazyCat\Core::header_buttons',
-                    'buttons' => [
-                        'delete' => [ 'label' => __( 'Mass Delete' ), 'action' => [ 'type' => 'massDelete', 'confirm' => __( 'Sure you want to remove selected item(s)?' ), 'params' => [ 'target' => '#grid-form', 'action' => getUrl( 'url_rewrite/url_rewrite/massdelete' ) ] ] ],
-                        'new' => [ 'label' => __( 'Create New' ), 'action' => [ 'type' => 'redirect', 'params' => [ 'url' => getUrl( 'url_rewrite/url_rewrite/edit' ) ] ] ]
+                'class' => 'CrazyCat\Base\Block\Template',
+                'data'  => [
+                    'template' => 'CrazyCat\Base::header_buttons',
+                    'buttons'  => [
+                        'delete' => [
+                            'label'  => __('Mass Delete'),
+                            'action' => [
+                                'type'    => 'massDelete',
+                                'confirm' => __('Sure you want to remove selected item(s)?'),
+                                'params'  => [
+                                    'target' => '#grid-form',
+                                    'action' => getUrl('url_rewrite/url_rewrite/massdelete')
+                                ]
+                            ]
+                        ],
+                        'new'    => [
+                            'label'  => __('Create New'),
+                            'action' => [
+                                'type'   => 'redirect',
+                                'params' => ['url' => getUrl('url_rewrite/url_rewrite/edit')]
+                            ]
+                        ]
                     ]
                 ]
             ]
         ],
-        'main' => [
+        'main'   => [
             'gird-form' => [
                 'class' => 'CrazyCat\UrlRewrite\Block\Backend\UrlRewrite\Grid'
             ]

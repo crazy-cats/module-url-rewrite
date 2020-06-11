@@ -12,14 +12,5 @@
  * @link     https://crazy-cat.cn
  */
 return [
-    'namespace' => 'CrazyCat\UrlRewrite',
-    'depends'   => [
-        'CrazyCat\Base'
-    ],
-    'routes'    => [
-        'backend' => 'url_rewrite'
-    ],
-    'setup'     => [
-        'CrazyCat\UrlRewrite\Setup\Install'
-    ]
+    'process_http_request' => 'CrazyCat\UrlRewrite\Observer\ParseUrl'
 ];
