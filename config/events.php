@@ -12,5 +12,5 @@
  * @link     https://crazy-cat.cn
  */
 return [
-    'process_http_request' => 'CrazyCat\UrlRewrite\Observer\ParseUrl'
+    'process_http_request_before' => 'CrazyCat\UrlRewrite\Observer\ParseUrl'
 ];

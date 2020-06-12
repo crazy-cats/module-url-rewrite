@@ -49,16 +49,6 @@ class Edit extends \CrazyCat\Base\Block\Backend\AbstractEdit
                         'label'      => __('Target Path'),
                         'type'       => 'text',
                         'validation' => ['required' => true]
-                    ],
-                    [
-                        'name'  => 'entity_id',
-                        'label' => __('Entity ID'),
-                        'type'  => 'text'
-                    ],
-                    [
-                        'name'  => 'entity_type',
-                        'label' => __('Entity Type'),
-                        'type'  => 'select'
                     ]
                 ]
             ]

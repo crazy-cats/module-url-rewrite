@@ -47,19 +47,6 @@ class Grid extends \CrazyCat\Base\Block\Backend\AbstractGrid
                 'filter' => ['type' => 'text', 'condition' => 'like']
             ],
             [
-                'name'   => 'entity_id',
-                'label'  => __('Entity ID'),
-                'sort'   => true,
-                'filter' => ['type' => 'text', 'condition' => 'eq']
-            ],
-            [
-                'name'   => 'entity_type',
-                'label'  => __('Entity Type'),
-                'sort'   => true,
-                'width'  => 200,
-                'filter' => ['type' => 'select', 'source' => SourceStage::class, 'condition' => 'eq']
-            ],
-            [
                 'label'   => __('Actions'),
                 'actions' => [
                     [

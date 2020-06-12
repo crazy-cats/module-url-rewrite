@@ -33,7 +33,8 @@ class Collection extends \CrazyCat\Framework\App\Component\Module\Model\Abstract
         parent::afterLoad();
 
         foreach ($this->items as &$item) {
-            $item->setData('params', json_decode($item->getData('params'), true));
+            $params = json_decode($item->getData('params'), true);
+            $item->setData('params', empty($params) ? [] : $params);
         }
     }
 }

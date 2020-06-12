@@ -47,13 +47,10 @@ class ParseUrl
      * @param $observer
      * @return void
      * @throws \ReflectionException
+     * @throws \Exception
      */
     public function execute($observer)
     {
-        if ($this->area->getCode() != Area::CODE_FRONTEND) {
-            return;
-        }
-
         /* @var $request \CrazyCat\Framework\App\Io\Http\Request */
         $request = $observer->getRequest();
 
@@ -61,21 +58,25 @@ class ParseUrl
             ->addFieldToFilter('stage_id', ['eq' => $this->stageManager->getCurrentStage()->getId()])
             ->addFieldToFilter('request_path', ['eq' => $request->getPath()])
             ->setPageSize(1);
+        if (!($urlRewrite = $collection->getFirstItem())) {
+            return;
+        }
 
-        if (($urlRewrite = $collection->getFirstItem())) {
-            [$routeName, $controllerName, $actionName] = explode('/', $urlRewrite->getData('target_path'));
-            if (($moduleName = $request->getModuleNameByRoute(Area::CODE_FRONTEND, $routeName))) {
-                $request->setModuleName($moduleName)
-                    ->setRouteName($routeName)
-                    ->setControllerName($controllerName)
-                    ->setActionName($actionName);
+        [$routeName, $controllerName, $actionName] = explode('/', $urlRewrite->getData('target_path'));
+        if (($moduleName = $request->getModuleNameByRoute(Area::CODE_FRONTEND, $routeName))) {
+            $request->setModuleName($moduleName)
+                ->setRouteName($routeName)
+                ->setControllerName($controllerName)
+                ->setActionName($actionName);
 
-                foreach ($urlRewrite->getParams() as $key => $value) {
-                    if ($request->getParam($key) === null) {
-                        $request->setParam($key, $value);
-                    }
+            foreach ($urlRewrite->getParams() as $key => $value) {
+                if ($request->getParam($key) === null) {
+                    $request->setParam($key, $value);
                 }
             }
         }
+
+        $request->setIsProcessed();
+        $this->area->setCode(Area::CODE_FRONTEND);
     }
 }

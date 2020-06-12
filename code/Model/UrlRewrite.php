@@ -34,16 +34,17 @@ class UrlRewrite extends \CrazyCat\Framework\App\Component\Module\Model\Abstract
     {
         parent::beforeSave();
 
-        if (!empty($this->data['entity_id'])) {
-            if (!empty($this->data['params']) && !is_array($this->data['params'])) {
-                $this->data['params'] = json_decode($this->data['params'], true);
-            }
-            $this->data['params'][Url::ID_NAME] = $this->data['entity_id'];
-        }
+        $targetPath = $this->data['target_path'];
+        parse_str(substr($targetPath, strpos($targetPath, '?') + 1), $strParams);
 
-        if (isset($this->data['params']) && is_array($this->data['params'])) {
-            $this->data['params'] = json_encode($this->data['params']);
-        }
+        $pos = strpos($targetPath, '?');
+        $targetPath = trim($pos !== false ? substr($targetPath, 0, $pos) : $targetPath, '/');
+        $this->data['target_path'] = implode('/', array_pad(explode('/', $targetPath), 3, 'index'));
+
+        $this->data['params'] = empty($this->data['params']) ? [] : $this->data['params'];
+        $this->data['params'] = array_merge($strParams, $this->data['params']);
+        ksort($this->data['params']);
+        $this->data['params'] = json_encode($this->data['params']);
     }
 
     /**
@@ -53,6 +54,7 @@ class UrlRewrite extends \CrazyCat\Framework\App\Component\Module\Model\Abstract
     protected function afterLoad()
     {
         $this->data['params'] = json_decode($this->data['params'], true);
+        $this->data['params'] = empty($this->data['params']) ? [] : $this->data['params'];
 
         parent::afterLoad();
     }
