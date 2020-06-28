@@ -47,13 +47,19 @@ class Install extends \CrazyCat\Framework\App\Component\Module\Setup\AbstractSet
                 'null'   => false
             ],
             [
+                'name'   => 'entity_id',
+                'type'   => MySql::COL_TYPE_INT,
+                'unsign' => true,
+                'null'   => true
+            ],
+            [
                 'name' => 'params',
                 'type' => MySql::COL_TYPE_TEXT
             ]
         ];
         $indexes = [
             ['columns' => ['stage_id', 'request_path'], 'type' => MySql::INDEX_UNIQUE],
-            ['columns' => ['stage_id', 'target_path'], 'type' => MySql::INDEX_NORMAL]
+            ['columns' => ['stage_id', 'target_path', 'entity_id'], 'type' => MySql::INDEX_NORMAL]
         ];
         $this->conn->createTable('url_rewrite', $columns, $indexes);
     }
