@@ -8,6 +8,7 @@
 namespace CrazyCat\UrlRewrite\Block\Backend\UrlRewrite;
 
 use CrazyCat\Base\Model\Source\Stage as SourceStage;
+use CrazyCat\UrlRewrite\Block\Form\Renderer\Parameters;
 
 /**
  * @category CrazyCat
@@ -49,6 +50,11 @@ class Edit extends \CrazyCat\Base\Block\Backend\AbstractEdit
                         'label'      => __('Target Path'),
                         'type'       => 'text',
                         'validation' => ['required' => true]
+                    ],
+                    [
+                        'name'     => 'params',
+                        'label'    => __('Parameters'),
+                        'renderer' => Parameters::class
                     ]
                 ]
             ]
@@ -57,6 +63,7 @@ class Edit extends \CrazyCat\Base\Block\Backend\AbstractEdit
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function getActionUrl()
     {

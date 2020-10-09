@@ -35,7 +35,10 @@ class UrlRewrite extends \CrazyCat\Framework\App\Component\Module\Model\Abstract
         parent::beforeSave();
 
         $targetPath = $this->data['target_path'];
-        parse_str(substr($targetPath, strpos($targetPath, '?') + 1), $strParams);
+        $strParams = [];
+        if (($pos = strpos($targetPath, '?')) !== false) {
+            parse_str(substr($targetPath, strpos($targetPath, '?') + 1), $strParams);
+        }
 
         $pos = strpos($targetPath, '?');
         $targetPath = trim($pos !== false ? substr($targetPath, 0, $pos) : $targetPath, '/');

@@ -29,6 +29,15 @@ class Save extends \CrazyCat\Framework\App\Component\Module\Controller\Backend\A
         }
 
         try {
+            $params = $data['params'];
+            $data['params'] = [];
+            foreach ($params as $param) {
+                if (empty($param['name']) || empty($param['value'])) {
+                    continue;
+                }
+                $data['params'][$param['name']] = $param['value'];
+            }
+
             $id = $model->addData($data)->save()->getId();
             $this->messenger->addSuccess(__('Successfully saved.'));
         } catch (\Exception $e) {
